@@ -1,7 +1,6 @@
 #include "led.h"
 
 void delay(volatile unsigned int d);
-int main(int argc, char *argv[]);
 
 void delay(volatile unsigned int d)
 {

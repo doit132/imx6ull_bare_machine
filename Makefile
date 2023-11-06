@@ -108,13 +108,17 @@ clean:
 # make -C freertos clean
 # rm -f *.o *.elf *.bin
 	rm -f $(shell find -name "*.o")
-	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx
+	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx $(TARGET).img
 
 .PHONY: distclean
 distclean:
 	rm -f $(shell find -name "*.o")
 	rm -f $(shell find -name "*.o.d")
-	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx
+	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx $(TARGET).img
+
+.PHONY: copy_imx_file
+copy_imx_file:
+	cp ./$(TARGET).imx /mnt/d/Users/Desktop/
 
 # Print Makefile variables
 .PHONY: printvars
