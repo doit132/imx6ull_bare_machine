@@ -65,7 +65,7 @@ CFLAGS += $(WARNFLAGS) $(OPTIMIZEFLAGS) $(CHARENCODINGFLAGS)
 # TODO 链接选项 Beign
 # 链接选项
 # LDFLAGS := -T$(LDPATH)
-LDFLAGS :=
+LDFLAGS := -nostdlib
 # TODO 链接选项 End
 
 export CFLAGS LDFLAGS INCFLAGS
@@ -79,7 +79,6 @@ TARGET := test
 obj-y +=
 
 # 被编译的子目录
-obj-y += bootloader/
 obj-y += src/
 # TODO 被编译的目录, 被编译的当前目录下的文件 End
 

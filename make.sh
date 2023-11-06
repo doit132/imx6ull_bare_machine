@@ -29,6 +29,8 @@ file_contents=$(cat "$file_path" | tr -d '[:space:]')
 if [ -z "$file_contents" ]; then
         echo "编译成功!!!"
         exit 0
+else
+        code -r "$file_path"
 fi
 
 # 需要替换的字符串数组
