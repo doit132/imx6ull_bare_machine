@@ -1,6 +1,8 @@
 log/
 *.elf
 *.bin
+*.img
+*.imx
 *.o
 *.o.d
 *.dis

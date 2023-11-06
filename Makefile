@@ -3,10 +3,16 @@ TOPDIR := $(shell pwd)
 export TOPDIR
 
 # TODO 链接脚本路径, 头文件搜索路径 Begin
-LDPATH :=
+LDPATH := imx6ull.lds
 
 # 头文件搜索路径
-INCDIRS :=
+INCDIRS := 	$(TOPDIR)/include \
+			$(TOPDIR)/include/led
+
+# mkimage 路径
+MKIMAGEPATH := ./tools/mkimage
+# NXP 官方提供的DCD信息
+IMXIMAGECFGPATH := ./tools/imximage.cfg.cfgtmp
 # TODO 链接脚本路径, 头文件搜索路径 End
 # === 各种路径变量 End
 
@@ -59,13 +65,12 @@ OPTIMIZEFLAGS := -O2
 CHARENCODINGFLAGS := -fexec-charset=gbk
 
 CFLAGS := -fomit-frame-pointer -nostdlib
-CFLAGS += $(WARNFLAGS) $(OPTIMIZEFLAGS) $(CHARENCODINGFLAGS)
+CFLAGS += $(WARNFLAGS) $(OPTIMIZEFLAGS) $(CHARENCODINGFLAGS) $(INCFLAGS)
 # == 编译选项 End
 
 # TODO 链接选项 Beign
 # 链接选项
-# LDFLAGS := -T$(LDPATH)
-LDFLAGS := -nostdlib
+LDFLAGS := -nostdlib -T $(LDPATH)
 # TODO 链接选项 End
 
 export CFLAGS LDFLAGS INCFLAGS
@@ -73,7 +78,7 @@ export CFLAGS LDFLAGS INCFLAGS
 
 # TODO 被编译的目录, 被编译的当前目录下的文件 Beign
 # 编译目标文件的名称
-TARGET := test
+TARGET := led
 
 # 被编译的当前目录下的文件
 obj-y +=
@@ -92,6 +97,9 @@ $(TARGET).bin : built-in.o
 	$(CC) $(LDFLAGS) -o $(TARGET).elf built-in.o
 	$(OBJCOPY) -O binary -S $(TARGET).elf $@
 	$(OBJDUMP) -D -m arm $(TARGET).elf > $(TARGET).dis
+	$(MKIMAGEPATH) -n $(IMXIMAGECFGPATH) -T imximage -e 0x80100000 -d $(TARGET).bin $(TARGET).imx
+	dd if=/dev/zero of=./tools/1k.bin bs=1024 count=1
+	cat ./tools/1k.bin $(TARGET).imx > $(TARGET).img
 
 # === 伪目标 Begin
 .PHONY: clean
@@ -99,17 +107,14 @@ clean:
 # make -C drivers clean
 # make -C freertos clean
 # rm -f *.o *.elf *.bin
-	echo $(OS)
 	rm -f $(shell find -name "*.o")
-	rm -f $(shell find -name "*.elf")
-	rm -f $(shell find -name "*.bin")
-	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin
+	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx
 
 .PHONY: distclean
 distclean:
 	rm -f $(shell find -name "*.o")
 	rm -f $(shell find -name "*.o.d")
-	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin
+	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx
 
 # Print Makefile variables
 .PHONY: printvars
