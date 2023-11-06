@@ -64,13 +64,16 @@ OPTIMIZEFLAGS := -O2
 #   -fexec-charset=gbk : 告诉编译器在生成可执行文件时使用 GBK 字符集, 用于支持中文
 CHARENCODINGFLAGS := -fexec-charset=gbk
 
-CFLAGS := -fomit-frame-pointer -nostdlib
-CFLAGS += $(WARNFLAGS) $(OPTIMIZEFLAGS) $(CHARENCODINGFLAGS) $(INCFLAGS)
+# 生成具有调试信息的 debug 文件
+DEBUGFLAGS := -g
+
+CFLAGS := -fomit-frame-pointer
+CFLAGS += $(WARNFLAGS) $(OPTIMIZEFLAGS) $(CHARENCODINGFLAGS) $(INCFLAGS) $(DEBUGFLAGS)
 # == 编译选项 End
 
 # TODO 链接选项 Beign
 # 链接选项
-LDFLAGS := -nostdlib -T $(LDPATH)
+LDFLAGS := -nostdlib -T $(LDPATH) -g
 # TODO 链接选项 End
 
 export CFLAGS LDFLAGS INCFLAGS
@@ -94,12 +97,13 @@ start_recursive_build:
 	$(MAKE) -C ./ -f $(TOPDIR)/Makefile.build
 
 $(TARGET).bin : built-in.o
-	$(CC) $(LDFLAGS) -o $(TARGET).elf built-in.o
+	$(LD) $(LDFLAGS) -o $(TARGET).elf built-in.o
 	$(OBJCOPY) -O binary -S $(TARGET).elf $@
 	$(OBJDUMP) -D -m arm $(TARGET).elf > $(TARGET).dis
 	$(MKIMAGEPATH) -n $(IMXIMAGECFGPATH) -T imximage -e 0x80100000 -d $(TARGET).bin $(TARGET).imx
 	dd if=/dev/zero of=./tools/1k.bin bs=1024 count=1
 	cat ./tools/1k.bin $(TARGET).imx > $(TARGET).img
+	cp -f ./$(TARGET).imx /mnt/d/Users/Desktop/
 
 # === 伪目标 Begin
 .PHONY: clean
@@ -115,10 +119,6 @@ distclean:
 	rm -f $(shell find -name "*.o")
 	rm -f $(shell find -name "*.o.d")
 	rm -f $(TARGET).elf $(TARGET).dis $(TARGET).bin $(TARGET).imx $(TARGET).img
-
-.PHONY: copy_imx_file
-copy_imx_file:
-	cp ./$(TARGET).imx /mnt/d/Users/Desktop/
 
 # Print Makefile variables
 .PHONY: printvars

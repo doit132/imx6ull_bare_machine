@@ -18,6 +18,7 @@ for file in "${LOG_FILES[@]}"; do
         fi
 done
 
+# 通过最后生成的 imx 后缀文件来判断编译是否成功
 if ls ./*.imx 1>/dev/null 2>&1; then
         make distclean
 fi
@@ -55,6 +56,5 @@ done
 
 if ls ./*.imx 1>/dev/null 2>&1; then
         echo "编译成功!!!"
-        make copy_imx_file
         exit 0
 fi
