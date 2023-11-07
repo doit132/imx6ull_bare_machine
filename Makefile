@@ -69,7 +69,7 @@ CHARENCODINGFLAGS := -fexec-charset=gbk
 # 生成具有调试信息的 debug 文件
 DEBUGFLAGS := -g
 
-CFLAGS := -fomit-frame-pointer
+CFLAGS := -fomit-frame-pointer -fno-builtin
 CFLAGS += $(WARNFLAGS) $(OPTIMIZEFLAGS) $(CHARENCODINGFLAGS) $(INCFLAGS) $(DEBUGFLAGS)
 # == 编译选项 End
 

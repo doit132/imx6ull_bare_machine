@@ -1,5 +1,4 @@
-#include "led.h"
-#include "key.h"
+#include "uart.h"
 
 void delay(volatile unsigned int d);
 
@@ -13,16 +12,23 @@ int main(int argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
-	led_init();
-	key_init();
+        
+	char c;
+	uart_init();
+	putchar('1');
+	putchar('0');
+	putchar('0');
+	putchar('a');
+	putchar('s');
+	putchar('k');
+	putchar('\r');
+	putchar('\n');
+
 	while (1) {
-		if (key_read() == KEY_DOWN) {
-			led_ctl(1);
-			delay(1000000);
-		} else {
-			led_ctl(0);
-			delay(1000000);
-		}
+		c = getchar();
+		putchar(c);
+		putchar(c + 1);
 	}
+
 	return 0;
 }

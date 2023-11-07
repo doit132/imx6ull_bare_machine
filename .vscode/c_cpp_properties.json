@@ -3,6 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
+                "/home/doit/imx6ull_bare_machine/include",
+                "/home/doit/imx6ull_bare_machine/include/led",
+                "/home/doit/imx6ull_bare_machine/include/key",
+                "/home/doit/imx6ull_bare_machine/include/uart",
                 "${workspaceFolder}/**"
             ],
             "defines": [],

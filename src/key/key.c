@@ -1,4 +1,5 @@
 #include "key.h"
+#include "key.h"
 #include "MCIMX6Y2.h"
 
 __IO uint32_t *CCM_CCGR3 = (__IO uint32_t *)0x20C4074;
@@ -44,3 +45,4 @@ uint8_t key_read()
 		return KEY_DOWN;
 	}
 }
+
