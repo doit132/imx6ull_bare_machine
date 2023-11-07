@@ -7,7 +7,8 @@ LDPATH := imx6ull.lds
 
 # 头文件搜索路径
 INCDIRS := 	$(TOPDIR)/include \
-			$(TOPDIR)/include/led
+			$(TOPDIR)/include/led \
+			$(TOPDIR)/include/key
 
 # mkimage 路径
 MKIMAGEPATH := ./tools/mkimage
@@ -90,20 +91,20 @@ obj-y +=
 obj-y += src/
 # TODO 被编译的目录, 被编译的当前目录下的文件 End
 
-all : start_recursive_build $(TARGET).bin
+all : $(TARGET).bin
 	@echo $(TARGET) has been built!
 
-start_recursive_build:
-	$(MAKE) -C ./ -f $(TOPDIR)/Makefile.build
-
-$(TARGET).bin : built-in.o
-	$(LD) $(LDFLAGS) -o $(TARGET).elf built-in.o
+$(TARGET).bin : start_recursive_build
+	$(CC) $(LDFLAGS) -o $(TARGET).elf $(shell find . -type f -name "*.o")
 	$(OBJCOPY) -O binary -S $(TARGET).elf $@
 	$(OBJDUMP) -D -m arm $(TARGET).elf > $(TARGET).dis
 	$(MKIMAGEPATH) -n $(IMXIMAGECFGPATH) -T imximage -e 0x80100000 -d $(TARGET).bin $(TARGET).imx
 	dd if=/dev/zero of=./tools/1k.bin bs=1024 count=1
 	cat ./tools/1k.bin $(TARGET).imx > $(TARGET).img
 	cp -f ./$(TARGET).imx /mnt/d/Users/Desktop/
+
+start_recursive_build:
+	$(MAKE) -C ./ -f $(TOPDIR)/Makefile.build
 
 # === 伪目标 Begin
 .PHONY: clean
