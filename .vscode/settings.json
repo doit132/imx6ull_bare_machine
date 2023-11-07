@@ -9,6 +9,9 @@
         "Kconfig": "kconfig",
         ".ccls": "yaml",
         "*.build": "makefile",
-        "led.h": "c"
-    }
+        "led.h": "c",
+        "key.h": "c",
+        "mcimx6y2.h": "c"
+    },
+    // "makefile.compileCommandsPath": ".vscode/compile_commands.json",
 }

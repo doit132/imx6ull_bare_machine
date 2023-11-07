@@ -6,4 +6,6 @@ log/
 *.o
 *.o.d
 *.dis
+compile_commands.json
+.ccls-cache/
 # 每条规则写一行，不能出现多条规则写在一行，不然会失效
