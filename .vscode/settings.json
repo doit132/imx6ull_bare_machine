@@ -11,7 +11,8 @@
         "*.build": "makefile",
         "led.h": "c",
         "key.h": "c",
-        "mcimx6y2.h": "c"
+        "mcimx6y2.h": "c",
+        "uart.h": "c"
     },
     // "makefile.compileCommandsPath": ".vscode/compile_commands.json",
 }

@@ -8,7 +8,8 @@ LDPATH := imx6ull.lds
 # 头文件搜索路径
 INCDIRS := 	$(TOPDIR)/include \
 			$(TOPDIR)/include/led \
-			$(TOPDIR)/include/key
+			$(TOPDIR)/include/key \
+			$(TOPDIR)/include/uart
 
 # mkimage 路径
 MKIMAGEPATH := ./tools/mkimage

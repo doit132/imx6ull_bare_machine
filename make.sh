@@ -24,7 +24,7 @@ if ls ./*.imx 1>/dev/null 2>&1; then
 fi
 
 # 这里不能使用 make -jN 进行编译, 否则必定报错
-make 1>log/info.log 2>log/warn.log
+make -j8 1>log/info.log 2>log/warn.log
 # === End
 
 # 检测 log/warn.log 文件是否为空, 如果为空说明没有错误信息, 后续不需要对其内容进行正则替换
