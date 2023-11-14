@@ -2,12 +2,15 @@ SECTIONS {
     . = 0x80100000;
 
     . = ALIGN(4);
+    __text_start = .;
     .text      :
     {
       *(.text)
     }
 
     . = ALIGN(4);
+    __rodata_start = .;
+
     .rodata : { *(.rodata) }
 
     . = ALIGN(4);

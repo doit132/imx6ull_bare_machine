@@ -9,7 +9,9 @@ LDPATH := imx6ull.lds
 INCDIRS := 	$(TOPDIR)/include \
 			$(TOPDIR)/include/led \
 			$(TOPDIR)/include/key \
-			$(TOPDIR)/include/uart
+			$(TOPDIR)/include/uart \
+			$(TOPDIR)/include/relocate \
+			$(TOPDIR)/include/delay
 
 # mkimage 路径
 MKIMAGEPATH := ./tools/mkimage
